@@ -37,15 +37,21 @@ import re
 #     ├──extra_01.png
 #     └──extra_video.mp4
 
-def rename_move_images(path_length, album_path, rename_path):
+def rename_move_images(album_path, rename_path):
+    # get os agnostic path
+    separator = os.path.sep
+    # where to operate on in file path
+    split_dir = album_path.split(separator)
+    dir_length = len(split_dir) + 1
+    
     for root, dirs, files in os.walk(album_path):
-        fullpath = root.split("\\")   # ['C:', 'Users', 'user', 'Downloads', 'folder', 'base']
-        subdir = fullpath[path_length:]         # current subdirectories
+        fullpath = root.split(separator)   # ['C:', 'Users', 'user', 'Downloads', 'folder', 'base']
+        subdir = fullpath[dir_length:]         # current subdirectories
 
         # # if in subdir
         if subdir:  
             # get base album folder name, i.e. 2020
-            yr = fullpath[path_length - 1] 
+            yr = fullpath[dir_length - 1] 
             # print("dir: ", yr, subdir)
             
             for file in files:
@@ -54,7 +60,8 @@ def rename_move_images(path_length, album_path, rename_path):
                 newname = "{}\{}\{}_{}".format(album_path, rename_path, yr, file)
                 print("new name: ", newname)
                 shutil.copy(oldname, newname)
-
+                print()
+                
 root_dir = os.getcwd()
 album = input("album to operate on: ")
 if album == "":
@@ -69,21 +76,21 @@ else:
         print("provided album does not exists\nexiting")
         sys.exit()
 
+# folder to move renamed files to 
 new_base = input("folder to create: ")
 if new_base == "":
     # if empty
     print("nothing provided, using default (renamed_python_album)")
     new_base = "renamed_python_album"
-if os.path.isdir(new_base) == False:
+
+# check move folder exists
+new_path = os.path.join(album_path, new_base)
+if os.path.isdir(new_path) == False:
     # if doesn't exist
     print("doesn't exists, creating")
-    os.makedirs(os.path.join(album_path, new_base))
+    os.makedirs(new_path)
 else:
     print("folder exists, using")
 
-# where to operate on in file path
-split_dir = album_path.split("\\")
-dir_length = len(split_dir) + 1
-
-rename_move_images(dir_length, album_path, new_base)
+rename_move_images(album_path, new_base)
 print("rename done")
