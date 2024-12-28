@@ -3,7 +3,10 @@ A collection of random scripts for backup purposes.
 
 ## album collater.py
 renames and flattens a directory structure
-   
+
+## dir_to_cbz.sh
+replaces all folders in a directory with a cbz archive of its contents
+
 ## file_move_by_filename.sh 
 move a file into a folder matching its second column
 ```
