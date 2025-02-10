@@ -22,3 +22,5 @@ includes delete line
 ## manga renamer.sh
 renames inconsistent naming of titles in a manga collection
 
+## wallpaper_linker.py
+creates a dir of symlinks for usage as a slideshow for Windows wallpapers
